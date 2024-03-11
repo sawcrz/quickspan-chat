@@ -14,8 +14,6 @@
   import Button from "../lib/Button.svelte";
 
   import type { MessageList } from "../utils/types";
-  import { fade } from "svelte/transition";
-  import { animationWaitMs } from "../utils/constants";
 
   let messages: MessageList = [];
   let presentationNode: ComponentType;
@@ -58,7 +56,7 @@
       {/await}
     </div>
     <form
-      class="flex items-center gap-2 m-2 rounded-md border border-gray-300 dark:border-slate-700"
+      class="flex items-center gap-2 m-2 rounded-md bg-slate-900 border border-gray-300 dark:border-slate-700"
       on:submit|preventDefault
     >
       <Button

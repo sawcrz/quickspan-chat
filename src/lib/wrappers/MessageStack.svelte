@@ -3,7 +3,6 @@
   import { MessageSquareOff } from "lucide-svelte";
 
   import type { MessageList } from "../../utils/types";
-  import { animationWaitMs } from "../../utils/constants";
 
   export let messages: MessageList;
 </script>
@@ -20,7 +19,7 @@
     </ul>
   {:else}
     <div
-      class="grid gap-4 place-content-center place-items-center w-full h-1/2 text-slate-700 dark:text-gray-400"
+      class="grid gap-4 place-content-center place-items-center w-full h-5/6 text-slate-700 dark:text-gray-400"
     >
       <MessageSquareOff size="5em" />
       <h3 class="text-2xl text-center max-w-md">
