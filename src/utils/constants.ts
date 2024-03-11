@@ -1,0 +1,12 @@
+export const storageKey = String(import.meta.env.VITE_LOCAL_STORAGE_KEY);
+export const configKey = String(import.meta.env.VITE_LOCAL_CONFIG_KEY);
+
+export const emptyStr = '';
+export const defaultTypingMs = 50;
+export const animationWaitMs = 2500;
+
+export const defaultConfig = {
+	preferredName: 'You',
+	preserveOnStorage: true,
+	prefersReducedMotion: false,
+};

@@ -1,0 +1,37 @@
+{
+  "name": "quickspan-chat",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^3.0.2",
+    "@tsconfig/svelte": "^5.0.2",
+    "@types/node": "^20.11.24",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^8.57.0",
+    "eslint-config-xo": "^0.44.0",
+    "eslint-config-xo-typescript": "^3.0.0",
+    "postcss": "^8.4.35",
+    "svelte": "^4.2.11",
+    "svelte-check": "^3.6.4",
+    "tailwindcss": "^3.4.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.4"
+  },
+  "dependencies": {
+    "@ts-stack/markdown": "^1.5.0",
+    "dompurify": "^3.0.9",
+    "hljs": "^6.2.3",
+    "lucide-svelte": "^0.344.0",
+    "uuidv4": "^6.2.13"
+  }
+}
