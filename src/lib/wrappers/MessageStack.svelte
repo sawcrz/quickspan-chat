@@ -1,25 +1,95 @@
 <script lang="ts">
+  import { get } from "svelte/store";
   import { fade } from "svelte/transition";
   import { MessageSquareOff } from "lucide-svelte";
 
-  import type { MessageList } from "../../utils/types";
+  import { configStore } from "../../utils/stores";
+  import { animationWaitMs, debugUserName } from "../../utils/constants";
+  import type { Message, MessageList } from "../../utils/types";
+
+  import AnimatedText from "../AnimatedText.svelte";
+  import Avatar from "../Avatar.svelte";
 
   export let messages: MessageList;
+
+  const prefersReducedMotionValue = get(configStore).prefersReducedMotion;
+  const preferredNameValue = get(configStore).preferredName;
+
+  const handleWhoSendsMessage = (msg: Message) => {
+    if (msg.remitent === debugUserName) {
+      return {
+        src: "user-mascot.webp",
+        alt: "Your avatar",
+      };
+    }
+
+    return {
+      src: "spanner-mascot.webp",
+      alt: "Application mascot",
+    };
+  };
 </script>
 
-<section class="contents">
+<section class="m-0" transition:fade={{ delay: animationWaitMs + 1000 }}>
   {#if messages.length > 0}
-    <ul class="list-none my-2">
+    <ul class="list-none">
       {#each messages as message (message.id)}
-        <li id={message.id} class="my-4" transition:fade>
-          {message.remitent}
-          {message.contents}
-        </li>
+        {#if prefersReducedMotionValue === true || message.added === true}
+          <li
+            class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6"
+          >
+            <p class="w-8 h-8 col-span-1">
+              <Avatar {...handleWhoSendsMessage(message)} />
+            </p>
+            <div class="col-span-9">
+              <h3 class="text-md">
+                <b>{message.remitent}</b>
+              </h3>
+              <p id={message.id.toString()} class="text-balance">
+                {message.contents}
+              </p>
+            </div>
+          </li>
+        {:else if message.remitent === debugUserName}
+          <li
+            class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6"
+            transition:fade
+          >
+            <p class="w-8 h-8 col-span-1">
+              <Avatar {...handleWhoSendsMessage(message)} />
+            </p>
+            <div class="col-span-9">
+              <h3 class="text-md">
+                <b>{preferredNameValue}</b>
+              </h3>
+              <p id={message.id.toString()} class="text-balance">
+                {message.contents}
+              </p>
+            </div>
+          </li>
+        {:else}
+          <li
+            class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6 transition"
+            transition:fade
+          >
+            <p class="w-8 h-8 col-span-1">
+              <Avatar {...handleWhoSendsMessage(message)} />
+            </p>
+            <div class="col-span-9">
+              <h3 class="text-md">
+                <b>{message.remitent}</b>
+              </h3>
+              <p id={message.id.toString()} class="text-balance">
+                <AnimatedText content={message.contents} />
+              </p>
+            </div>
+          </li>
+        {/if}
       {/each}
     </ul>
   {:else}
     <div
-      class="grid gap-4 place-content-center place-items-center w-full h-5/6 text-slate-700 dark:text-gray-400"
+      class="transition grid gap-4 place-content-center place-items-center w-full h-52 text-slate-700 dark:text-gray-400"
     >
       <MessageSquareOff size="5em" />
       <h3 class="text-2xl text-center max-w-md">

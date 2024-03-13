@@ -1,8 +1,8 @@
-import {uuid} from 'uuidv4';
 import type {Message} from './types';
+import {v4} from 'uuid';
 
 export const createMessage = (remitent: string, contents: string): Message => ({
-	id: uuid(),
+	id: v4(),
 	remitent,
 	contents,
 	added: false,

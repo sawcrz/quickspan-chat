@@ -13,6 +13,7 @@
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "@tsconfig/svelte": "^5.0.2",
     "@types/node": "^20.11.24",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "autoprefixer": "^10.4.18",
@@ -28,10 +29,7 @@
     "vite": "^5.1.4"
   },
   "dependencies": {
-    "@ts-stack/markdown": "^1.5.0",
-    "dompurify": "^3.0.9",
-    "hljs": "^6.2.3",
     "lucide-svelte": "^0.344.0",
-    "uuidv4": "^6.2.13"
+    "uuid": "^9.0.1"
   }
 }

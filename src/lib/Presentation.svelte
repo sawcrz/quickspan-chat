@@ -12,7 +12,7 @@
   let subText = `Type belown to start a conversation`;
 </script>
 
-<section class="flex flex-col gap-3 items-center mt-4">
+<section class="flex flex-col gap-3 items-center mt-4 mb-2 h-64">
   <p class="w-20 h-20">
     <Avatar src="spanner-mascot.webp" alt="Assistant profile picture" />
   </p>

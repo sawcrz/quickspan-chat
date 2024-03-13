@@ -26,9 +26,9 @@
 >
   <Header>
     <slot name="modal-header" />
-    <Button ariaLabel={"Close dialog"} assignedCallback={handleModalClose}
-      ><X /></Button
-    >
+    <Button ariaLabel={"Close dialog"} onClickCallback={handleModalClose}>
+      <X />
+    </Button>
   </Header>
   <hr />
   <slot name="modal-body" />
@@ -37,14 +37,14 @@
 <!--tailwind does not allow you to style the dialog animations directly-->
 <style scoped>
   dialog[open] {
-    animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: izoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   dialog[open]::backdrop {
-    animation: fade 0.2s ease-out;
+    animation: ifade 0.2s ease-out;
   }
 
-  @keyframes zoom {
+  @keyframes izoom {
     from {
       transform: scale(0.95);
     }
@@ -53,7 +53,7 @@
     }
   }
 
-  @keyframes fade {
+  @keyframes ifade {
     from {
       opacity: 0;
     }
