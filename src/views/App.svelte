@@ -1,7 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy, beforeUpdate, afterUpdate } from "svelte";
-  import { get } from "svelte/store";
-
+  import { onMount, type ComponentType } from "svelte";
   import {
     MessageSquareX,
     Search,
@@ -9,92 +7,20 @@
     Settings,
   } from "lucide-svelte";
 
-  import { messagePumpStore, configStore } from "../utils/stores";
-  import { debugUserName } from "../utils/constants";
-  import type { MessageList } from "../utils/types";
-
   import BodyWrapper from "../lib/layout/BodyWrapper.svelte";
   import AppContainer from "../lib/layout/AppContainer.svelte";
   import Header from "../lib/layout/Header.svelte";
+
   import Button from "../lib/Button.svelte";
 
-  let autoscroll: boolean;
-  let queryPump: string = "";
-  let messages: MessageList = [];
-  let chatElementNode: HTMLElement;
-  let textAreaNode: HTMLTextAreaElement;
+  import type { MessageList } from "../utils/types";
 
-  const unsubscribeCallback = messagePumpStore.subscribe((value) => {
-    messages = value;
-  });
+  let messages: MessageList = [];
+  let presentationNode: ComponentType;
 
   onMount(async () => {
-    const storageModule = await import("../utils/client/storage");
-    messagePumpStore.set(storageModule.getMessagesFromStorage());
-    messages = get(messagePumpStore);
-
-    if (!get(configStore).preserveOnStorage) {
-      storageModule.cleanMessagePump();
-    }
+    presentationNode = (await import("../lib/Presentation.svelte")).default;
   });
-
-  $: beforeUpdate(() => {
-    autoscroll =
-      chatElementNode &&
-      chatElementNode.offsetHeight + chatElementNode.scrollTop >
-        chatElementNode.scrollHeight - 20;
-  });
-
-  $: afterUpdate(() => {
-    if (autoscroll) chatElementNode.scrollTo(0, chatElementNode.scrollHeight);
-  });
-
-  onDestroy(unsubscribeCallback);
-
-  async function onSendRequest(): Promise<boolean> {
-    if (textAreaNode.disabled || queryPump === "") {
-      return false;
-    }
-
-    const queryString = queryPump;
-    const requestModule = await import("../utils/client/request");
-    const storageModule = await import("../utils/client/storage");
-
-    queryPump = "";
-    textAreaNode.disabled = true;
-
-    await requestModule
-      .stackMessage({
-        message: queryString,
-        remitent: debugUserName,
-        listHandle: messages,
-      })
-      .then(async () => {
-        await requestModule.submitQuery(queryString, messages).then(() => {
-          messages.forEach((item) => (item.added = true));
-          storageModule.updateMessagesStorage(messages);
-          textAreaNode.disabled = false;
-        });
-      });
-
-    return true;
-  }
-
-  async function onClearContext(): Promise<boolean> {
-    if (textAreaNode.disabled) {
-      return false;
-    }
-
-    try {
-      queryPump = "";
-      const requestModule = await import("../utils/client/request");
-      await requestModule.clearContext();
-      return true;
-    } catch (e) {
-      console.error(e);
-    }
-    return false;
-  }
 </script>
 
 <BodyWrapper>
@@ -123,44 +49,33 @@
         <Settings />
       </Button>
     </Header>
-    <div
-      class="w-5/6 h-5/6 mx-auto overflow-y-auto"
-      bind:this={chatElementNode}
-    >
-      {#await import("../lib/Presentation.svelte") then moduleName}
-        <svelte:component this={moduleName.default} />
-      {/await}
+    <div class="w-5/6 h-full mx-auto">
+      <svelte:component this={presentationNode} />
       {#await import("../lib/wrappers/MessageStack.svelte") then moduleName}
         <svelte:component this={moduleName.default} {messages} />
       {/await}
     </div>
     <form
-      class="flex h-auto items-center gap-2 m-2 rounded-md bg-slate-900 border border-gray-300 dark:border-slate-700"
+      class="flex items-center gap-2 m-2 rounded-md bg-slate-900 border border-gray-300 dark:border-slate-700"
       on:submit|preventDefault
     >
       <Button
-        buttonType="reset"
         ariaLabel="Clear Context"
         customStyles="background-color: #00000000; border-width: 0px;"
-        onClickCallback={onClearContext}
+        onClickCallback={() => {}}
       >
         <MessageSquareX color="#ff2323" />
       </Button>
       <textarea
-        on:keydown={() => {}}
-        bind:this={textAreaNode}
-        bind:value={queryPump}
         class="w-full h-10 resize-none overflow-y-auto bg-inherit text-slate-800 dark:text-gray-300 outline-none p-2"
         placeholder="Type here"
         aria-label="query-input"
         name="query"
-        required
       />
       <Button
-        buttonType="submit"
         ariaLabel="Send Message"
         customStyles="background-color: #00000000; border-width: 0px;"
-        onClickCallback={onSendRequest}
+        onClickCallback={() => {}}
       >
         <SendHorizonal color="#1960ff" />
       </Button>

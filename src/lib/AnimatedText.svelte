@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { afterUpdate, onMount } from "svelte";
   import { dynamicFillMethod } from "../utils/dom/fillmethods";
   import { defaultTypingMs, emptyStr } from "../utils/constants";
 
