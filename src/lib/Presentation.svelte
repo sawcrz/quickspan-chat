@@ -8,7 +8,7 @@
 
   const prefersReducedMotionValue = get(configStore).prefersReducedMotion;
 
-  let mainText = `<b>Hello i'm Spanner, your GPT chat assistant</b>`;
+  let mainText = `**Hello i'm Spanner, your GPT chat assistant**`;
   let subText = `Type belown to start a conversation`;
 </script>
 
