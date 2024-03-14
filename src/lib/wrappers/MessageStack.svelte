@@ -9,6 +9,7 @@
 
   import AnimatedText from "../AnimatedText.svelte";
   import Avatar from "../Avatar.svelte";
+  import StaticMessage from "../StaticMessage.svelte";
 
   export let messages: MessageList;
 
@@ -45,9 +46,10 @@
               <h3 class="text-md">
                 <b>{message.remitent}</b>
               </h3>
-              <p id={message.id.toString()} class="text-balance">
-                {message.contents}
-              </p>
+              <StaticMessage
+                id={message.id.toString()}
+                contents={message.contents}
+              />
             </div>
           </li>
         {:else if message.remitent === debugUserName}
@@ -62,9 +64,10 @@
               <h3 class="text-md">
                 <b>{preferredNameValue}</b>
               </h3>
-              <p id={message.id.toString()} class="text-balance">
-                {message.contents}
-              </p>
+              <StaticMessage
+                id={message.id.toString()}
+                contents={message.contents}
+              />
             </div>
           </li>
         {:else}
