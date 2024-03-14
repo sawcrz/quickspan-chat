@@ -11,4 +11,16 @@ export type AppConfig = {
 	prefersReducedMotion: boolean;
 };
 
+export type AsyncMessageStackParams = {
+	message: string;
+	remitent: string;
+	listHandle: MessageList;
+};
+
+export type Response = {
+	data: string;
+	headers: Headers;
+};
+
 export type MessageList = Message[];
+
