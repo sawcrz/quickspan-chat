@@ -1,7 +1,9 @@
 import {emptyStr} from '../constants';
+import {processMarkup} from '../parser';
 
 export const simpleFillMethod = (node: HTMLElement, content: string): void => {
-	node.innerHTML = content;
+	const cleanMarkup = processMarkup(content);
+	node.innerHTML = cleanMarkup;
 };
 
 export const dynamicFillMethod = (node: HTMLElement, content: string, typingSlowDown: number): void => {
@@ -13,7 +15,8 @@ export const dynamicFillMethod = (node: HTMLElement, content: string, typingSlow
 		characterCount++;
 		if (characterCount >= content.length) {
 			clearInterval(intervalId);
-			node.innerHTML = content;
+			const cleanMarkup = processMarkup(content);
+			node.innerHTML = cleanMarkup;
 		}
 	}, typingSlowDown);
 };

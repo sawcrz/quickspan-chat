@@ -1,19 +1,7 @@
-import {Marked, Renderer, type MarkedOptions} from '@ts-stack/markdown';
-import DOMPurify from 'dompurify';
-import hljs from 'hljs';
+// NOTE: make a better parser implementation due the issues
+// All the packages used here are related to discord markdown
+// see https://github.com/brussell98/discord-markdown
 
-const mdOptions: MarkedOptions = {
-	gfm: true,
-	tables: true,
-	breaks: false,
-	pedantic: false,
-	sanitize: false,
-	smartLists: true,
-	smartypants: false,
-	renderer: new Renderer(),
+import {parser, htmlOutput, toHTML} from 'discord-markdown';
 
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
-	highlight: (code, lang) => hljs.highlight(lang, code).value,
-};
-
-export const processMarkup = (rawText: string): string => Marked.parse(rawText, mdOptions);
+export const processMarkup = (rawText: string): string => toHTML(rawText);
