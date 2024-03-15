@@ -12,7 +12,7 @@ export const stackMessage = async (params: AsyncMessageStackParams): Promise<Mes
 	const newMessage = factoryModule.createMessage(remitent, message);
 
 	if (get(configStore).preserveOnStorage) {
-		messagePumpStore.update(() => [...listHandle, newMessage]);
+		messagePumpStore.set([...listHandle, newMessage]);
 	}
 
 	return newMessage;
