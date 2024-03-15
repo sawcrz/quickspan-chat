@@ -9,6 +9,7 @@
     debugUserName,
     fastTypingMs,
   } from "../../utils/constants";
+
   import type { Message, MessageList } from "../../utils/types";
 
   import AnimatedText from "../AnimatedText.svelte";
@@ -47,9 +48,9 @@
               <Avatar {...handleWhoSendsMessage(message)} />
             </p>
             <div class="col-span-9">
-              <h3 class="text-md">
+              <h1 class="text-md">
                 <b>{message.remitent}</b>
-              </h3>
+              </h1>
               <StaticMessage
                 id={message.id.toString()}
                 contents={message.contents}
@@ -64,9 +65,9 @@
               <Avatar {...handleWhoSendsMessage(message)} />
             </p>
             <div class="col-span-9">
-              <h3 class="text-md">
+              <h1 class="text-md">
                 <b>{preferredNameValue}</b>
-              </h3>
+              </h1>
               <StaticMessage
                 id={message.id.toString()}
                 contents={message.contents}
@@ -81,9 +82,9 @@
               <Avatar {...handleWhoSendsMessage(message)} />
             </p>
             <div class="col-span-9">
-              <h3 class="text-md">
+              <h1 class="text-md">
                 <b>{message.remitent}</b>
-              </h3>
+              </h1>
               <p id={message.id.toString()} class="text-balance">
                 <AnimatedText
                   content={message.contents}
