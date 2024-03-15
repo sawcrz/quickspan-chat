@@ -20,18 +20,19 @@
 
   let autoscroll: boolean;
   let queryPump: string = "";
-  let messages: MessageList = [];
   let chatElementNode: HTMLElement;
   let textAreaNode: HTMLTextAreaElement;
+  let messages: MessageList = get(messagePumpStore);
 
-  const unsubscribeCallback = messagePumpStore.subscribe((value) => {
-    messages = value;
-  });
+  const unsubscribeCallback = messagePumpStore.subscribe(
+    (newList: MessageList) => {
+      messages = newList;
+    },
+  );
 
   onMount(async () => {
     const storageModule = await import("../utils/client/storage");
     messagePumpStore.set(storageModule.getMessagesFromStorage());
-    messages = get(messagePumpStore);
 
     if (!get(configStore).preserveOnStorage) {
       storageModule.cleanMessagePump();
@@ -95,6 +96,12 @@
     }
     return false;
   }
+
+  function onSearchOpen() {
+    searchDialogWillOpen = true;
+  }
+
+  let searchDialogWillOpen: boolean = false;
 </script>
 
 <BodyWrapper>
@@ -112,12 +119,12 @@
         {/await}
       </h1>
       <Button
-        onClickCallback={() => {}}
+        onClickCallback={onSearchOpen}
         customStyles="display:flex; align-items:center; gap:1em; width: max(40%, 5em)"
         ariaLabel="Search a message"
       >
         <Search />
-        Search...
+        Search
       </Button>
       <Button ariaLabel="Open settings" onClickCallback={() => {}}>
         <Settings />
@@ -135,7 +142,7 @@
       {/await}
     </div>
     <form
-      class="flex h-auto items-center gap-2 m-2 rounded-md bg-slate-900 border border-gray-300 dark:border-slate-700"
+      class="flex h-auto items-center gap-2 m-2 rounded-md border border-gray-300 dark:border-slate-700"
       on:submit|preventDefault
     >
       <Button
@@ -150,7 +157,7 @@
         on:keydown={() => {}}
         bind:this={textAreaNode}
         bind:value={queryPump}
-        class="w-full h-10 resize-none overflow-y-auto bg-inherit text-slate-800 dark:text-gray-300 outline-none p-2"
+        class="w-full h-10 resize-none overflow-y-auto bg-inherit text-slate-800 dark:text-gray-300 outline-none focus-visible:outline-blue-400 focus-visible:outline-2 p-2"
         placeholder="Type here"
         aria-label="query-input"
         name="query"
@@ -165,6 +172,12 @@
         <SendHorizonal color="#1960ff" />
       </Button>
     </form>
+    {#await import("../lib/dialogs/Search.svelte") then moduleName}
+      <svelte:component
+        this={moduleName.default}
+        bind:willOpen={searchDialogWillOpen}
+      />
+    {/await}
   </AppContainer>
 </BodyWrapper>
 
@@ -176,5 +189,9 @@
 
   div {
     scroll-behavior: smooth;
+  }
+
+  textarea:focus-visible {
+    outline-style: solid;
   }
 </style>
