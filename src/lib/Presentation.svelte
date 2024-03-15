@@ -19,7 +19,7 @@
   <div class="text-center">
     {#if prefersReducedMotionValue === true}
       <p class="text-gray-200 text-xl">{mainText}</p>
-      <p class="text-gray-600 text-md">{subText}</p>
+      <p class="text-gray-400 text-md">{subText}</p>
     {:else}
       {#await import("../lib/AnimatedText.svelte") then mod}
         <svelte:component
@@ -28,7 +28,7 @@
           bind:content={mainText}
         />
         <p
-          class="text-gray-600 text-md"
+          class="text-gray-400 text-md"
           transition:fade={{ delay: animationWaitMs }}
         >
           {subText}
