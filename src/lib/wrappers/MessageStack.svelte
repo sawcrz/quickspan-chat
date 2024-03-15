@@ -4,7 +4,11 @@
   import { MessageSquareOff } from "lucide-svelte";
 
   import { configStore } from "../../utils/stores";
-  import { animationWaitMs, debugUserName } from "../../utils/constants";
+  import {
+    animationWaitMs,
+    debugUserName,
+    fastTypingMs,
+  } from "../../utils/constants";
   import type { Message, MessageList } from "../../utils/types";
 
   import AnimatedText from "../AnimatedText.svelte";
@@ -55,7 +59,6 @@
         {:else if message.remitent === debugUserName}
           <li
             class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6"
-            transition:fade
           >
             <p class="w-8 h-8 col-span-1">
               <Avatar {...handleWhoSendsMessage(message)} />
@@ -73,7 +76,6 @@
         {:else}
           <li
             class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6 transition"
-            transition:fade
           >
             <p class="w-8 h-8 col-span-1">
               <Avatar {...handleWhoSendsMessage(message)} />
@@ -83,7 +85,10 @@
                 <b>{message.remitent}</b>
               </h3>
               <p id={message.id.toString()} class="text-balance">
-                <AnimatedText content={message.contents} />
+                <AnimatedText
+                  content={message.contents}
+                  typingDelay={fastTypingMs}
+                />
               </p>
             </div>
           </li>
@@ -95,9 +100,9 @@
       class="transition grid gap-4 place-content-center place-items-center w-full h-52 text-slate-700 dark:text-gray-400"
     >
       <MessageSquareOff size="5em" />
-      <h3 class="text-2xl text-center max-w-md">
+      <p class="text-2xl text-center max-w-md">
         <b>You don't have any messages with spanner</b>
-      </h3>
+      </p>
     </div>
   {/if}
 </section>

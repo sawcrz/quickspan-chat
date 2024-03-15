@@ -4,6 +4,7 @@ export const apiKey = String(import.meta.env.VITE_API_KEY);
 
 export const emptyStr = '';
 export const defaultTypingMs = 40;
+export const fastTypingMs = 20;
 export const animationWaitMs = 2500;
 
 export const debugUserName = 'You';
