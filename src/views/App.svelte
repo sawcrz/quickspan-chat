@@ -138,7 +138,7 @@
         <svelte:component this={moduleName.default} />
       {/await}
       {#await import("../lib/wrappers/MessageStack.svelte") then moduleName}
-        <svelte:component this={moduleName.default} {messages} />
+        <svelte:component this={moduleName.default} bind:messages />
       {/await}
     </div>
     <form
@@ -157,7 +157,7 @@
         on:keydown={() => {}}
         bind:this={textAreaNode}
         bind:value={queryPump}
-        class="w-full h-10 resize-none overflow-y-auto bg-inherit text-slate-800 dark:text-gray-300 outline-none focus-visible:outline-blue-400 focus-visible:outline-2 p-2"
+        class="w-full h-10 resize-none overflow-y-auto bg-inherit text-slate-800 dark:text-gray-300 outline-none p-2"
         placeholder="Type here"
         aria-label="query-input"
         name="query"
@@ -176,6 +176,7 @@
       <svelte:component
         this={moduleName.default}
         bind:willOpen={searchDialogWillOpen}
+        bind:messages
       />
     {/await}
   </AppContainer>
@@ -189,9 +190,5 @@
 
   div {
     scroll-behavior: smooth;
-  }
-
-  textarea:focus-visible {
-    outline-style: solid;
   }
 </style>
