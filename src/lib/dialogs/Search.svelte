@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy, afterUpdate } from "svelte";
+  import { afterUpdate } from "svelte";
   import { Search } from "lucide-svelte";
 
   import Dialog from "../Dialog.svelte";
@@ -11,10 +11,6 @@
   let requestPump: string = "";
   let messageDelegate: MessageList = messages;
 
-  afterUpdate(() => {
-    messageDelegate = messages;
-  });
-
   function onSearch() {
     if (requestPump === "") {
       messageDelegate = messages;
@@ -24,11 +20,14 @@
     messageDelegate = messages.filter((item: Message) =>
       item.contents.toLowerCase().includes(requestPump.toLowerCase()),
     );
+
+    return messageDelegate;
   }
 
   let onCloseDialog: () => void;
 </script>
 
+{@debug messageDelegate}
 <Dialog bind:willOpen bind:handleModalClose={onCloseDialog}>
   <h2 class="flex gap-4 text-xl" slot="modal-header">
     <Search />
