@@ -3,7 +3,7 @@
   import Button from "./Button.svelte";
   import Header from "./layout/Header.svelte";
 
-  export let willOpen = false;
+  export let willOpen: boolean;
 
   let referenceHandle: HTMLDialogElement;
 
@@ -11,7 +11,7 @@
     referenceHandle.showModal();
   };
 
-  const handleModalClose = () => {
+  export const handleModalClose = () => {
     referenceHandle.close();
     willOpen = false;
   };
@@ -20,31 +20,32 @@
 </script>
 
 <dialog
-  class="rounded-lg border-0 p-2 sm:w-5/6 xl:w-1/2"
+  class="bg-gray-200 text-slate-800 dark:bg-slate-800 dark:text-gray-400 rounded-lg border-0 p-2 sm:w-5/6 xl:w-1/2"
   bind:this={referenceHandle}
   on:close|stopPropagation
 >
   <Header>
     <slot name="modal-header" />
-    <Button ariaLabel={"Close dialog"} assignedCallback={handleModalClose}
-      ><X /></Button
-    >
+    <Button ariaLabel={"Close dialog"} onClickCallback={handleModalClose}>
+      <X />
+    </Button>
   </Header>
-  <hr />
+  <hr class="border border-gray-300 dark:border-gray-500" />
   <slot name="modal-body" />
 </dialog>
 
 <!--tailwind does not allow you to style the dialog animations directly-->
 <style scoped>
   dialog[open] {
-    animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: izoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   dialog[open]::backdrop {
-    animation: fade 0.2s ease-out;
+    background-color: #03030390;
+    animation: ifade 0.2s ease-out;
   }
 
-  @keyframes zoom {
+  @keyframes izoom {
     from {
       transform: scale(0.95);
     }
@@ -53,7 +54,7 @@
     }
   }
 
-  @keyframes fade {
+  @keyframes ifade {
     from {
       opacity: 0;
     }
