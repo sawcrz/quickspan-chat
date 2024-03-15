@@ -5,11 +5,12 @@
 
   export let content: string;
   export let customClassList: string = emptyStr;
+  export let typingDelay: number = defaultTypingMs;
 
   let thisTag: HTMLElement;
 
   onMount(() => {
-    dynamicFillMethod(thisTag, content, defaultTypingMs);
+    dynamicFillMethod(thisTag, content, typingDelay);
   });
 </script>
 
