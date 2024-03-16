@@ -1,7 +1,6 @@
 import {writable} from 'svelte/store';
-
-import {defaultConfig} from './constants';
+import {getConfigFromStorage} from './client/storage';
 import type {MessageList, AppConfig} from './types';
 
-export const configStore = writable<AppConfig>(defaultConfig);
+export const configStore = writable<AppConfig>(getConfigFromStorage());
 export const messagePumpStore = writable<MessageList>([]);
