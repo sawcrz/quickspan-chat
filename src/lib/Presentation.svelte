@@ -18,7 +18,13 @@
   </p>
   <div class="text-center">
     {#if prefersReducedMotionValue === true}
-      <p class="text-gray-200 text-xl">{mainText}</p>
+      {#await import("../lib/StaticMessage.svelte") then mod}
+        <svelte:component
+          this={mod.default}
+          classList="text-slate-800 dark:text-gray-200 text-xl"
+          bind:contents={mainText}
+        />
+      {/await}
       <p class="text-gray-400 text-md">{subText}</p>
     {:else}
       {#await import("../lib/AnimatedText.svelte") then mod}
