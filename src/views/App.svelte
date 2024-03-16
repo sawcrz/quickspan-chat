@@ -101,7 +101,12 @@
     searchDialogWillOpen = true;
   }
 
+  function onSettingsOpen() {
+    settingsDialogWillOpen = true;
+  }
+
   let searchDialogWillOpen: boolean = false;
+  let settingsDialogWillOpen: boolean = false;
 </script>
 
 <BodyWrapper>
@@ -126,7 +131,7 @@
         <Search />
         Search
       </Button>
-      <Button ariaLabel="Open settings" onClickCallback={() => {}}>
+      <Button ariaLabel="Open settings" onClickCallback={onSettingsOpen}>
         <Settings />
       </Button>
     </Header>
@@ -177,6 +182,12 @@
         this={moduleName.default}
         bind:willOpen={searchDialogWillOpen}
         bind:messages
+      />
+    {/await}
+    {#await import("../lib/dialogs/Settings.svelte") then moduleName}
+      <svelte:component
+        this={moduleName.default}
+        bind:willOpen={settingsDialogWillOpen}
       />
     {/await}
   </AppContainer>
