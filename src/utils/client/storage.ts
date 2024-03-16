@@ -48,7 +48,7 @@ export const getConfigFromStorage = (): AppConfig => {
 export const updateConfig = (cfg: AppConfig): boolean => {
 	try {
 		const rawCfg = JSON.stringify(cfg);
-		localStorage.setItem(storageKey, rawCfg);
+		localStorage.setItem(configKey, rawCfg);
 		return true;
 	} catch (e) {
 		console.error(e);
