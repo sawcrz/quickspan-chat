@@ -1,15 +1,22 @@
 <script lang="ts">
-  import { afterUpdate } from "svelte";
   import { Search } from "lucide-svelte";
 
   import Dialog from "../Dialog.svelte";
   import type { Message, MessageList } from "../../utils/types";
+  import StaticMessage from "../StaticMessage.svelte";
+  import { beforeUpdate } from "svelte";
 
   export let willOpen: boolean;
   export let messages: MessageList;
 
   let requestPump: string = "";
   let messageDelegate: MessageList = messages;
+
+  beforeUpdate(() => {
+    if (requestPump === "") {
+      messageDelegate = messages;
+    }
+  });
 
   function onSearch() {
     if (requestPump === "") {
@@ -27,7 +34,6 @@
   let onCloseDialog: () => void;
 </script>
 
-{@debug messageDelegate}
 <Dialog bind:willOpen bind:handleModalClose={onCloseDialog}>
   <h2 class="flex gap-4 text-xl" slot="modal-header">
     <Search />
@@ -40,20 +46,21 @@
       </label>
       <input
         id="searchmessage"
-        class="py-2 px-4 w-full bg-gray-300 text-slate-800 dark:bg-slate-700 dark:text-gray-200 rounded-md outline-none"
+        class="py-2 px-4 w-full bg-inherit border-b border-b-gray-600 text-slate-800 dark:text-gray-200 outline-none"
         type="search"
+        placeholder="@Message"
         bind:value={requestPump}
         on:input={onSearch}
       />
     </form>
-    <ul class="list-none overflow-y-auto h-96">
+    <ul class="list-none overflow-y-auto h-96 rounded-md">
       {#each messageDelegate as message (message.id)}
         <li
-          class="my-2 mx-4 p-4 bg-gray-300 text-slate-800 dark:bg-slate-900 dark:text-gray-300 rounded-sm cursor-pointer"
+          class="mx-2 my-1 p-4 bg-inherit text-slate-800 dark:text-gray-300 rounded-md hover:brightness-75 transition cursor-pointer"
         >
           <a href={`#${message.id}`} on:click={onCloseDialog}>
             <h1 class="mb-1"><b>{message.remitent}</b></h1>
-            <p>{message.contents}</p>
+            <StaticMessage contents={message.contents} />
           </a>
         </li>
       {/each}
@@ -64,5 +71,9 @@
 <style scoped>
   ul {
     scrollbar-width: none;
+  }
+
+  input::-webkit-search-cancel-button {
+    display: none;
   }
 </style>
