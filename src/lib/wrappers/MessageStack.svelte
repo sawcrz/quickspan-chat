@@ -36,64 +36,45 @@
   };
 </script>
 
-<section class="m-0" transition:fade={{ delay: animationWaitMs + 1000 }}>
+<section
+  class="m-0"
+  transition:fade={{
+    delay: animationWaitMs + 1000,
+    duration: prefersReducedMotionValue ? 0 : 250,
+  }}
+>
   {#if messages.length > 0}
     <ul class="list-none">
       {#each messages as message (message.id)}
-        {#if prefersReducedMotionValue === true || message.added === true}
-          <li
-            class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6"
-          >
-            <p class="w-8 h-8 col-span-1">
-              <Avatar {...handleWhoSendsMessage(message)} />
-            </p>
-            <div class="col-span-9">
-              <h1 class="text-md">
-                <b>{message.remitent}</b>
-              </h1>
+        <li
+          class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6"
+        >
+          <p class="w-8 h-8 col-span-1">
+            <Avatar {...handleWhoSendsMessage(message)} />
+          </p>
+          <div class="col-span-9">
+            <h1 class="text-md">
+              <b>
+                {message.remitent === debugUserName
+                  ? preferredNameValue
+                  : message.remitent}
+              </b>
+            </h1>
+            {#if message.added || message.remitent === debugUserName || prefersReducedMotionValue}
               <StaticMessage
                 id={message.id.toString()}
                 contents={message.contents}
               />
-            </div>
-          </li>
-        {:else if message.remitent === debugUserName}
-          <li
-            class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6"
-          >
-            <p class="w-8 h-8 col-span-1">
-              <Avatar {...handleWhoSendsMessage(message)} />
-            </p>
-            <div class="col-span-9">
-              <h1 class="text-md">
-                <b>{preferredNameValue}</b>
-              </h1>
-              <StaticMessage
-                id={message.id.toString()}
-                contents={message.contents}
-              />
-            </div>
-          </li>
-        {:else}
-          <li
-            class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6 transition"
-          >
-            <p class="w-8 h-8 col-span-1">
-              <Avatar {...handleWhoSendsMessage(message)} />
-            </p>
-            <div class="col-span-9">
-              <h1 class="text-md">
-                <b>{message.remitent}</b>
-              </h1>
+            {:else}
               <p id={message.id.toString()} class="text-balance">
                 <AnimatedText
                   content={message.contents}
                   typingDelay={fastTypingMs}
                 />
               </p>
-            </div>
-          </li>
-        {/if}
+            {/if}
+          </div>
+        </li>
       {/each}
     </ul>
   {:else}
