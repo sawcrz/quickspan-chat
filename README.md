@@ -1,4 +1,6 @@
 # Spanner, your basic chat assistant
+![image](https://github.com/SlowArmoredWarrior/quickspan-chat/assets/134238128/030913e0-fb9c-4ef1-b542-918793ec7695)
+
 Spanner is a simple chat assistant app written in svelte who will help you in non complex cases (like facts, objective questions and so on), using the LLAMA2 AI model (GPT 3.5) to process your questions.
 
 - It's 100% responsive and accesibility friendship.
