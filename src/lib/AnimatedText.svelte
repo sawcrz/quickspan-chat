@@ -1,11 +1,15 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { dynamicFillMethod } from "../utils/dom/fillmethods";
+  import { v4 } from "uuid";
+
   import { defaultTypingMs, emptyStr } from "../utils/constants";
+  import { dynamicFillMethod } from "../utils/dom/fillmethods";
 
   export let content: string;
-  export let customClassList: string = emptyStr;
-  export let typingDelay: number = defaultTypingMs;
+
+  export let id = v4();
+  export let typingDelay = defaultTypingMs;
+  export let customClassList = emptyStr;
 
   let thisTag: HTMLElement;
 
@@ -14,9 +18,4 @@
   });
 </script>
 
-<svelte:element
-  this="p"
-  bind:this={thisTag}
-  class={customClassList}
-  contenteditable="false"
-/>
+<p {id} bind:this={thisTag} class={customClassList} contenteditable="false" />
