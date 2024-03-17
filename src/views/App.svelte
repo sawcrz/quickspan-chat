@@ -9,8 +9,8 @@
     Settings,
   } from "lucide-svelte";
 
+  import { debugUserName, emptyStr } from "../utils/constants";
   import { messagePumpStore, configStore } from "../utils/stores";
-  import { debugUserName } from "../utils/constants";
   import type { MessageList } from "../utils/types";
 
   import BodyWrapper from "../lib/layout/BodyWrapper.svelte";
@@ -19,10 +19,11 @@
   import Button from "../lib/Button.svelte";
 
   let autoscroll: boolean;
-  let queryPump: string = "";
   let chatElementNode: HTMLElement;
   let textAreaNode: HTMLTextAreaElement;
-  let messages: MessageList = get(messagePumpStore);
+
+  let queryPump = emptyStr;
+  let messages = get(messagePumpStore);
 
   const unsubscribeCallback = messagePumpStore.subscribe(
     (newList: MessageList) => {
@@ -73,11 +74,14 @@
       .then(async () => {
         await requestModule.submitQuery(queryString, messages).then(() => {
           messages.forEach((item) => (item.added = true));
-          storageModule.updateMessagesStorage(messages);
+
+          if (get(configStore).preserveOnStorage) {
+            storageModule.updateMessagesStorage(messages);
+          }
+
           textAreaNode.disabled = false;
         });
       });
-
     return true;
   }
 
@@ -94,6 +98,7 @@
     } catch (e) {
       console.error(e);
     }
+
     return false;
   }
 
@@ -105,8 +110,8 @@
     settingsDialogWillOpen = true;
   }
 
-  let searchDialogWillOpen: boolean = false;
-  let settingsDialogWillOpen: boolean = false;
+  let searchDialogWillOpen = false;
+  let settingsDialogWillOpen = false;
 </script>
 
 <BodyWrapper>

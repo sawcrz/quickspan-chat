@@ -3,25 +3,24 @@
   import { fade } from "svelte/transition";
   import { MessageSquareOff } from "lucide-svelte";
 
-  import { configStore } from "../../utils/stores";
   import {
     animationWaitMs,
     debugUserName,
     fastTypingMs,
   } from "../../utils/constants";
 
+  import { configStore } from "../../utils/stores";
   import type { Message, MessageList } from "../../utils/types";
 
-  import AnimatedText from "../AnimatedText.svelte";
   import Avatar from "../Avatar.svelte";
-  import StaticMessage from "../StaticMessage.svelte";
+  import StaticMessage from "../StaticText.svelte";
+  import AnimatedText from "../AnimatedText.svelte";
 
   export let messages: MessageList;
 
-  const prefersReducedMotionValue = get(configStore).prefersReducedMotion;
-  const preferredNameValue = get(configStore).preferredName;
+  const { prefersReducedMotion, preferredName } = get(configStore);
 
-  const handleWhoSendsMessage = (msg: Message) => {
+  const getRemitentImage = (msg: Message) => {
     if (msg.remitent === debugUserName) {
       return {
         src: "user-mascot.webp",
@@ -40,7 +39,7 @@
   class="m-0"
   transition:fade={{
     delay: animationWaitMs + 1000,
-    duration: prefersReducedMotionValue ? 0 : 250,
+    duration: prefersReducedMotion ? 0 : 250,
   }}
 >
   {#if messages.length > 0}
@@ -50,28 +49,27 @@
           class="grid w-full max-w-2xl sm:grid-cols-1 md:grid-cols-10 gap-4 text-slate-900 dark:text-gray-300 px-2 my-6"
         >
           <p class="w-8 h-8 col-span-1">
-            <Avatar {...handleWhoSendsMessage(message)} />
+            <Avatar {...getRemitentImage(message)} />
           </p>
           <div class="col-span-9">
             <h1 class="text-md">
               <b>
                 {message.remitent === debugUserName
-                  ? preferredNameValue
+                  ? preferredName
                   : message.remitent}
               </b>
             </h1>
-            {#if message.added || message.remitent === debugUserName || prefersReducedMotionValue}
+            {#if message.added || prefersReducedMotion || message.remitent === debugUserName}
               <StaticMessage
                 id={message.id.toString()}
                 contents={message.contents}
               />
             {:else}
-              <p id={message.id.toString()} class="text-balance">
-                <AnimatedText
-                  content={message.contents}
-                  typingDelay={fastTypingMs}
-                />
-              </p>
+              <AnimatedText
+                id={message.id.toString()}
+                content={message.contents}
+                typingDelay={fastTypingMs}
+              />
             {/if}
           </div>
         </li>

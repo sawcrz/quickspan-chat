@@ -2,8 +2,9 @@
   import { emptyStr } from "../utils/constants";
 
   export let buttonType: "button" | "submit" | "reset" = "button";
-  export let ariaLabel: string;
   export let customStyles = emptyStr;
+
+  export let ariaLabel: string;
   export let onClickCallback: () => void;
 </script>
 

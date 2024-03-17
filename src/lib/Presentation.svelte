@@ -6,7 +6,7 @@
   import { configStore } from "../utils/stores";
   import Avatar from "./Avatar.svelte";
 
-  const prefersReducedMotionValue = get(configStore).prefersReducedMotion;
+  const { prefersReducedMotion } = get(configStore);
 
   let mainText = `**Hello i'm Spanner, your GPT chat assistant**`;
   let subText = `Type belown to start a conversation`;
@@ -17,11 +17,11 @@
     <Avatar src="spanner-mascot.webp" alt="Assistant profile picture" />
   </p>
   <div class="text-center">
-    {#if prefersReducedMotionValue === true}
-      {#await import("../lib/StaticMessage.svelte") then mod}
+    {#if prefersReducedMotion}
+      {#await import("./StaticText.svelte") then mod}
         <svelte:component
           this={mod.default}
-          classList="text-slate-800 dark:text-gray-200 text-xl"
+          customClassList="text-slate-800 dark:text-gray-200 text-xl"
           bind:contents={mainText}
         />
       {/await}

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { X } from "lucide-svelte";
+
   import Button from "./Button.svelte";
   import Header from "./layout/Header.svelte";
 

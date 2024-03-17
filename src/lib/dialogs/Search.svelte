@@ -1,16 +1,17 @@
 <script lang="ts">
+  import { beforeUpdate } from "svelte";
   import { Search } from "lucide-svelte";
 
-  import Dialog from "../Dialog.svelte";
   import type { Message, MessageList } from "../../utils/types";
-  import StaticMessage from "../StaticMessage.svelte";
-  import { beforeUpdate } from "svelte";
+
+  import Dialog from "../Dialog.svelte";
+  import StaticMessage from "../StaticText.svelte";
 
   export let willOpen: boolean;
   export let messages: MessageList;
 
-  let requestPump: string = "";
-  let messageDelegate: MessageList = messages;
+  let requestPump = "";
+  let messageDelegate = messages;
 
   beforeUpdate(() => {
     if (requestPump === "") {

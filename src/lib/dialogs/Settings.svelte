@@ -2,19 +2,16 @@
   import { get } from "svelte/store";
   import { ArchiveRestore, Save, Settings } from "lucide-svelte";
 
+  import { defaultConfig } from "../../utils/constants";
+  import { configStore } from "../../utils/stores";
+
   import Dialog from "../Dialog.svelte";
   import Button from "../Button.svelte";
 
-  import { configStore } from "../../utils/stores";
-  import { defaultConfig } from "../../utils/constants";
+  export let willOpen = false;
 
-  export let willOpen: boolean = false;
-
-  const currentState = get(configStore);
-
-  let { preferredName } = currentState;
-  let { preserveOnStorage } = currentState;
-  let { prefersReducedMotion } = currentState;
+  let { preferredName, preserveOnStorage, prefersReducedMotion } =
+    get(configStore);
 
   let onCloseDialog: () => void;
 
