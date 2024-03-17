@@ -11,9 +11,7 @@ export const stackMessage = async (params: AsyncMessageStackParams): Promise<Mes
 	const factoryModule = await import('../factory');
 	const newMessage = factoryModule.createMessage(remitent, message);
 
-	if (get(configStore).preserveOnStorage) {
-		messagePumpStore.set([...listHandle, newMessage]);
-	}
+	messagePumpStore.set([...listHandle, newMessage]);
 
 	return newMessage;
 };
