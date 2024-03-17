@@ -17,21 +17,23 @@ By the moment, the chat only has 3 options:
 
 - **Reduced Motion**: the app has some builtin-framework animations, if you want, you can disable it.
 
-## Installation and Running
-
-I used NPM but feel free to use the package manager of your preference:
-
-_**npm**_
+## Installation
+1. Clone the repo and get inside it:
 ```bash
-npm install && npm run dev
+git clone https://github.com/SlowArmoredWarrior/quickspan-chat.git
 ```
 
-_**yarn**_
+2. Use the package manager of your preference to install the dependencies (**npm / yarn / pnpm**):
 ```bash
-yarn install && yarn run dev
+<package-manager> install
 ```
 
-_**pnpm**_
+3. Once installed, you must modify the .env.example file, first, rename it to _.env_ and fill the variables according the comments:
 ```bash
-pnpm install && pnpm run dev
+nano ./.env.example
 ```
+> NOTE: once modified, nano will request you the name of the file, save it as .env
+
+4. Finnaly, run the developement server:
+```bash
+<package-manager> run dev
